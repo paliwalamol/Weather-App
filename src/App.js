@@ -7,6 +7,7 @@ function App() {
   const [inpt,setInput]  = useState("");
   const [city,setCity] = useState(null);
   const [weather,setWeather] = useState(null);
+  const [load,setLoad] = useState(false);
 
 
   const setInputfunc = (e) => {
@@ -22,6 +23,7 @@ function App() {
   }
 
   const fetchData = (e) => {
+    setLoad(true);
     e.preventDefault();
     console.log("fetching data");
     fetch(`https://restcountries.com/v3.1/name/${inpt}?fullText=true`).then((res) => res.json()).then((data) => {
@@ -29,8 +31,10 @@ function App() {
       if(data && data.status!==404){
         setCity(data[0].capital);
       }
+      setLoad(false);
     }
     );  
+    
   }
 
   // console.log(res);
@@ -44,20 +48,27 @@ function App() {
   }
   
   const getWeather = () => {
+    setLoad(true);
     console.log("get weather button clicked");
     fetch(`http://api.weatherstack.com/current?access_key=17a211a98de9e9420bd480d8d82ec189&query=${city}`).then((res) => res.json()).then((data) => {
       // console.log(data);
       setWeather(data);
+      setLoad(false);
   });
+  
   }
 
 
   return (
     <div className="App">
     <h1>Weather App</h1>
+    
     {!res && 
       <>
       <form className='box'>
+      {load===true && 
+        <div className="loader"></div>   
+      }
       <input placeholder='Enter country Name' className="inp" type="text" value={inpt} onChange={(e)=>setInputfunc(e)}/>
       <button className="btn" disabled={but} onClick={(e)=>fetchData(e)}>Submit</button>
       </form>
@@ -68,7 +79,9 @@ function App() {
         
         return (
           <div className="box" key={key}>
-            
+          {load===true && 
+            <div className="loader"></div>   
+          }
             <h3>Capital: {item.capital}</h3>
             <h3>Population: {item.population}</h3>
             <h3>Latitude:{item.latlng[0]} longitude:{item.latlng[1]}</h3>
@@ -81,6 +94,9 @@ function App() {
         })}
         {!weather && res?.status===404 && 
           <div className='box'>
+          {load===true && 
+            <div className="loader"></div>   
+          }
           <h1>Country not found</h1>
           <button className='btn' onClick={setInitial}>Back</button>
           </div>
@@ -89,6 +105,9 @@ function App() {
       {weather && 
            
           <div className="box">
+          {load===true && 
+            <div className="loader"></div>   
+          }
             <h1>Weather in {city}</h1>
             <img src={weather.current.weather_icons[0]} alt="weatherImage" />
             <h3>Temperature: {weather.current.temperature}°C </h3>

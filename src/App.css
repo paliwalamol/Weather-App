@@ -30,7 +30,6 @@
   margin-bottom: 20px;
   text-align: center;
   
- 
 }
 .inp:focus{
   border-bottom: 1px solid rgb(235, 70, 70);
@@ -57,4 +56,46 @@ opacity: 0.5;
   
   min-width: 40px;
   min-height: 40px;
+}
+
+.loader{
+  width: 4vmax;
+  height: 4vmax;
+  border-right: 4px solid #090909;
+  border-radius: 100%;
+  animation: spinRight 800ms linear infinite;
+}
+  
+.loader:before, .loader:after {
+    content: '';
+    width: 3vmax;
+    height: 3vmax;
+    display: block;
+    position: absolute;
+    top: calc(50% - 1.5vmax);
+    left: calc(50% - 1.5vmax);
+    border-left: 3px solid #635e5e;
+    border-radius: 100%;
+    animation: spinLeft 800ms linear infinite;
+  }
+  
+  .loader:after {
+    width: 2vmax;
+    height: 2vmax;
+    top: calc(50% - 1vmax);
+    left: calc(50% - 1vmax);
+    border: 0;
+    border-right: 2px solid #4c4a4a;
+    animation: none;
+  }
+
+
+@keyframes spinLeft {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(720deg);}
+}
+
+@keyframes spinRight {
+  from {transform:rotate(360deg);}
+  to {transform:rotate(0deg);}
 }
