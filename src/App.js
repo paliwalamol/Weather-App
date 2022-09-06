@@ -80,10 +80,11 @@ function App() {
         )
         })}
         {!weather && res?.status===404 && 
-          <>
-          <h1 className='box'>Country not found</h1>
+          <div className='box'>
+          <h1>Country not found</h1>
           <button className='btn' onClick={setInitial}>Back</button>
-        </>
+          </div>
+        
       }
       {weather && 
            
